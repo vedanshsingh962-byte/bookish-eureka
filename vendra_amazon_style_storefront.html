@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendra | Online Shopping</title>
+<style>
+:root{--navy:#131921;--navy2:#232f3e;--orange:#ff9900;--yellow:#febd69;--bg:#e3e6e6;--ink:#0f1111}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+button,input{font:inherit}button{cursor:pointer}
+.top{background:var(--navy);color:white;display:flex;align-items:center;gap:18px;padding:10px 18px;position:sticky;top:0;z-index:5}
+.logo{font-size:27px;font-weight:800;letter-spacing:-1.5px;color:white;text-decoration:none;white-space:nowrap}.logo span{color:var(--orange)}
+.delivery{font-size:11px;color:#ccc;white-space:nowrap}.delivery b{display:block;color:white;font-size:13px}
+.search{display:flex;flex:1;height:42px;min-width:90px}.search select{width:90px;border:0;background:#e6e6e6;border-radius:5px 0 0 5px;padding:0 6px}.search input{min-width:0;flex:1;border:0;padding:0 12px;outline:none}.search button{width:48px;border:0;background:var(--yellow);border-radius:0 5px 5px 0;font-size:20px}
+.toplink{font-size:12px;white-space:nowrap;color:white}.toplink b{display:block;font-size:14px}.cart{font-size:14px;font-weight:bold;white-space:nowrap}
+.subnav{background:var(--navy2);color:white;padding:10px 18px;display:flex;gap:22px;overflow:auto;white-space:nowrap;font-size:13px}.subnav a{color:white;text-decoration:none}
+main{max-width:1450px;margin:auto;padding:0 18px 30px}
+.hero{min-height:260px;margin:0 -18px 0;padding:42px 6%;background:linear-gradient(110deg,#dceeff,#fff2d8 65%,#f9d9bd);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.hero h1{font-size:clamp(28px,4vw,48px);margin:0 0 12px;max-width:570px}.hero p{font-size:17px;max-width:500px;line-height:1.5}.hero button,.primary{background:var(--orange);border:0;border-radius:20px;padding:11px 20px;font-weight:bold}.hero-art{font-size:100px;filter:drop-shadow(0 12px 10px #7775)}
+.notice{background:#fff;padding:12px 16px;margin:12px 0;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:16px 0}
+.card{background:white;padding:18px;min-width:0;display:flex;flex-direction:column;position:relative}.card h2{font-size:20px;margin:0 0 12px}.card img{width:100%;height:170px;object-fit:contain;background:#fafafa}.card .price{font-size:20px;font-weight:bold;margin:9px 0 4px}.muted{font-size:12px;color:#565959}.card button{border:0;background:#ffd814;border-radius:18px;padding:9px;margin-top:10px}.card button:hover{background:#f7ca00}
+.section-title{font-size:22px;margin:22px 0 10px}.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.tile{background:white;padding:15px;text-align:center;font-weight:bold}.tile img{width:100%;height:110px;object-fit:contain}
+footer{background:var(--navy2);color:white;text-align:center;padding:28px;font-size:13px}
+#aiToggle{position:fixed;right:22px;bottom:20px;border:0;border-radius:28px;background:#25364b;color:white;padding:14px 18px;box-shadow:0 5px 20px #0004;z-index:8;font-weight:bold}
+#chat{display:none;position:fixed;right:18px;bottom:82px;width:min(360px,calc(100vw - 36px));height:460px;background:white;box-shadow:0 8px 35px #0005;border-radius:14px;z-index:9;overflow:hidden;flex-direction:column}
+.chathead{background:var(--navy2);color:white;padding:15px;font-weight:bold;display:flex;justify-content:space-between}.chatbody{padding:14px;overflow:auto;flex:1;background:#f7f8f8}.bubble{padding:10px 12px;border-radius:12px;margin:8px 0;max-width:90%;font-size:13px;line-height:1.4}.bot{background:white;border:1px solid #ddd}.user{background:#d9edff;margin-left:auto}.chatinput{display:flex;padding:10px;border-top:1px solid #ddd;gap:6px}.chatinput input{flex:1;min-width:0;padding:10px;border:1px solid #ccc;border-radius:8px}.chatinput button{border:0;background:var(--orange);border-radius:8px;padding:0 13px}
+.cartcount{color:var(--yellow)}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.delivery,.toplink.optional{display:none}.strip{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.top{gap:10px;padding:9px}.logo{font-size:22px}.search select{display:none}.toplink{display:none}.hero{min-height:220px;padding:28px 22px}.hero-art{font-size:65px}.grid{gap:9px}.card{padding:11px}.card img{height:125px}.card h2{font-size:17px}.subnav{gap:16px;padding:10px}.strip{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="#">vendra<span>.</span></a>
+  <div class="delivery">Delivering to<b>India ▾</b></div>
+  <form class="search" id="searchForm"><select id="categorySelect"><option value="all">All</option><option>Electronics</option><option>Fashion</option><option>Home</option><option>Books</option></select><input id="searchInput" placeholder="Search Vendra products..." aria-label="Search products"><button aria-label="Search">⌕</button></form>
+  <div class="toplink optional">Hello, sign in<b>Account & Lists</b></div>
+  <div class="toplink">Returns<b>& Orders</b></div>
+  <div class="cart">🛒 Cart <span class="cartcount" id="cartCount">0</span></div>
+</header>
+<nav class="subnav"><a href="#">☰ All</a><a href="#deals">Today's Deals</a><a href="#electronics">Electronics</a><a href="#fashion">Fashion</a><a href="#home">Home & Kitchen</a><a href="#books">Books</a><a href="#aiToggle">Ask Vendra AI</a></nav>
+<main>
+  <section class="hero">
+    <div><h1>Everything you need, all in one place.</h1><p>Discover great products from sellers across India. Shop smarter with Vendra.</p><button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Start shopping</button></div>
+    <div class="hero-art" aria-hidden="true">🛍️</div>
+  </section>
+  <div class="notice">Welcome to Vendra — a demo storefront. Product listings and checkout are sample interactions; no real orders or payments are processed.</div>
+  <h2 class="section-title" id="deals">Popular picks for you</h2>
+  <section class="grid" id="products">
+    <article class="card" data-category="Electronics" data-name="wireless headphones"><h2>Wireless headphones</h2><img alt="Wireless headphones" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=80" onerror="this.src='https://placehold.co/500x300?text=Headphones'"><div class="price">₹1,499</div><div class="muted">Popular in Electronics</div><button onclick="addToCart('Wireless headphones',1499)">Add to Cart</button></article>
+    <article class="card" data-category="Electronics" data-name="smart watch"><h2>Smart watch</h2><img alt="Smart watch" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80"><div class="price">₹2,299</div><div class="muted">Track your everyday</div><button onclick="addToCart('Smart watch',2299)">Add to Cart</button></article>
+    <article class="card" data-category="Fashion" data-name="sneakers shoes"><h2>Everyday sneakers</h2><img alt="Sneakers" src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"><div class="price">₹1,899</div><div class="muted">Comfort meets style</div><button onclick="addToCart('Everyday sneakers',1899)">Add to Cart</button></article>
+    <article class="card" data-category="Home" data-name="coffee maker kitchen"><h2>Coffee maker</h2><img alt="Coffee maker" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=80"><div class="price">₹2,799</div><div class="muted">For your home</div><button onclick="addToCart('Coffee maker',2799)">Add to Cart</button></article>
+    <article class="card" data-category="Fashion" data-name="backpack bag"><h2>Daily backpack</h2><img alt="Backpack" src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80"><div class="price">₹999</div><div class="muted">Ready for every day</div><button onclick="addToCart('Daily backpack',999)">Add to Cart</button></article>
+    <article class="card" data-category="Home" data-name="lamp home decor"><h2>Modern table lamp</h2><img alt="Table lamp" src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=500&q=80"><div class="price">₹1,199</div><div class="muted">A warm touch for home</div><button onclick="addToCart('Modern table lamp',1199)">Add to Cart</button></article>
+    <article class="card" data-category="Books" data-name="books reading"><h2>Books & reading</h2><img alt="Books" src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=500&q=80"><div class="price">From ₹299</div><div class="muted">Find your next read</div><button onclick="addToCart('Books & reading',299)">Add to Cart</button></article>
+    <article class="card" data-category="Electronics" data-name="camera photography"><h2>Instant camera</h2><img alt="Camera" src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=80"><div class="price">₹5,499</div><div class="muted">Capture the moment</div><button onclick="addToCart('Instant camera',5499)">Add to Cart</button></article>
+  </section>
+  <h2 class="section-title">Shop by category</h2>
+  <section class="strip">
+    <div class="tile"><div style="font-size:45px">💻</div>Electronics</div><div class="tile"><div style="font-size:45px">👟</div>Fashion</div><div class="tile"><div style="font-size:45px">🏠</div>Home</div><div class="tile"><div style="font-size:45px">📚</div>Books</div><div class="tile"><div style="font-size:45px">🎁</div>Gifts</div>
+  </section>
+</main>
+<footer>Vendra demo storefront · Built as a starting point for your marketplace idea<br><br>About · Seller Centre · Help · Privacy</footer>
+<button id="aiToggle" onclick="toggleChat()">✨ Ask Vendra AI</button>
+<section id="chat" aria-label="Vendra AI shopping assistant">
+  <div class="chathead"><span>✨ Vendra AI Assistant</span><button onclick="toggleChat()" style="background:none;color:white;border:0;font-size:20px">×</button></div>
+  <div class="chatbody" id="chatBody"><div class="bubble bot">Hi! I'm Vendra's shopping assistant. Ask me to find products, compare prices, or suggest a gift. This demo uses sample responses.</div></div>
+  <form class="chatinput" id="chatForm"><input id="chatInput" placeholder="Ask me anything..." autocomplete="off"><button>Send</button></form>
+</section>
+<script>
+let cart=[];
+function addToCart(name,price){cart.push({name,price});document.getElementById('cartCount').textContent=cart.length;alert(name+' added to your demo cart.');}
+function filterProducts(){
+ const q=document.getElementById('searchInput').value.toLowerCase().trim();
+ const c=document.getElementById('categorySelect').value;
+ let shown=0;
+ document.querySelectorAll('.card').forEach(card=>{
+  const matchQ=card.dataset.name.includes(q)||card.innerText.toLowerCase().includes(q);
+  const matchC=c==='all'||card.dataset.category.toLowerCase()===c.toLowerCase();
+  card.style.display=matchQ&&matchC?'flex':'none';if(matchQ&&matchC)shown++;
+ });
+ let msg=document.getElementById('noResults');
+ if(!shown){if(!msg){msg=document.createElement('p');msg.id='noResults';msg.className='notice';document.getElementById('products').after(msg);}msg.textContent='No demo products found. Try another search.';}else if(msg)msg.remove();
+}
+document.getElementById('searchForm').addEventListener('submit',e=>{e.preventDefault();filterProducts();});
+document.getElementById('categorySelect').addEventListener('change',filterProducts);
+function toggleChat(){const el=document.getElementById('chat');el.style.display=el.style.display==='flex'?'none':'flex';}
+function addMessage(text,who){const d=document.createElement('div');d.className='bubble '+who;d.textContent=text;document.getElementById('chatBody').appendChild(d);document.getElementById('chatBody').scrollTop=99999;}
+function assistantReply(q){
+ const s=q.toLowerCase();
+ if(s.includes('headphone')||s.includes('audio'))return 'The wireless headphones are listed at ₹1,499 in this demo. You can search “headphones” in the store to find them.';
+ if(s.includes('watch'))return 'The smart watch is listed at ₹2,299. It could be a useful everyday tech pick.';
+ if(s.includes('gift'))return 'For a gift, consider the smart watch (₹2,299), daily backpack (₹999), or books (from ₹299). What is your budget?';
+ if(s.includes('cheap')||s.includes('budget')||s.includes('under'))return 'The lowest listed items in this demo are books from ₹299 and the daily backpack at ₹999. Tell me your exact budget for a narrower suggestion.';
+ if(s.includes('compare'))return 'Tell me which two products you want to compare, and I can help compare their listed demo prices and use cases.';
+ return 'I can help with product discovery in this demo. Try asking “suggest a gift”, “find headphones”, or “show budget products”. For a real AI assistant, connect this chat to an AI API through a secure backend; never put a secret API key in this HTML file.';
+}
+document.getElementById('chatForm').addEventListener('submit',e=>{
+ e.preventDefault();const input=document.getElementById('chatInput');const q=input.value.trim();if(!q)return;
+ addMessage(q,'user');input.value='';
+ setTimeout(()=>addMessage(assistantReply(q),'bot'),250);
+});
+</script>
+</body></html>
